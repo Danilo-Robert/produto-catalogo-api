@@ -19,14 +19,14 @@ public class ProdutoService {
     private final ProdutoConverter produtoConverter;
 
     public ProdutoDTO criar(ProdutoDTO dto){
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriasId()).orElseThrow(
+        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId()).orElseThrow(
                 () -> new ResourceNotFoundException("Categoria não encontrada"));
         Produto entity = produtoConverter.paraEntity(dto);
         entity.setCategoria(categoria);
         produtoRepository.save(entity);
 
         ProdutoDTO retorno = produtoConverter.paraDTO(entity);
-        retorno.setCategoriasId(categoria.getId());
+        retorno.setCategoriaId(categoria.getId());
         return retorno;
     }
 
@@ -34,7 +34,7 @@ public class ProdutoService {
         Produto entity = produtoRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Produto não encontrado"));
         ProdutoDTO dto = produtoConverter.paraDTO(entity);
-        dto.setCategoriasId(entity.getCategoria().getId());
+        dto.setCategoriaId(entity.getCategoria().getId());
         return dto;
     }
 
@@ -42,7 +42,7 @@ public class ProdutoService {
         Produto entity = produtoRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Produto não encontrado"));
 
-        Categoria catEntity = categoriaRepository.findById(id).orElseThrow(
+        Categoria catEntity = categoriaRepository.findById(dto.getCategoriaId()).orElseThrow(
                 () -> new ResourceNotFoundException("Categoria não encontrada"));
 
         entity.setNome(dto.getNome());
@@ -53,7 +53,7 @@ public class ProdutoService {
         produtoRepository.save(entity);
 
         ProdutoDTO retorno = produtoConverter.paraDTO(entity);
-        retorno.setCategoriasId(catEntity.getId());
+        retorno.setCategoriaId(catEntity.getId());
         return retorno;
     }
 

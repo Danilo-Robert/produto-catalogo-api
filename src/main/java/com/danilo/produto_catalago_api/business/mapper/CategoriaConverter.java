@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CategoriaConverter {
 
-    Categoria paraEntity(CategoriaDTO dto);
-
     CategoriaDTO paraDTO(Categoria entity);
+
+    Categoria paraEntity(CategoriaDTO dto);
 }
