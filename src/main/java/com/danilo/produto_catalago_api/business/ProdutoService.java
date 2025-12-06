@@ -42,7 +42,7 @@ public class ProdutoService {
         Produto entity = produtoRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Produto não encontrado"));
 
-        Categoria catEntity = categoriaRepository.findById(id).orElseThrow(
+        Categoria catEntity = categoriaRepository.findById(dto.getCategoriaId()).orElseThrow(
                 () -> new ResourceNotFoundException("Categoria não encontrada"));
 
         entity.setNome(dto.getNome());
