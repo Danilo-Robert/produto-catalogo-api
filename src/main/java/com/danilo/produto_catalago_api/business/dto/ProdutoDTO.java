@@ -14,5 +14,5 @@ public class ProdutoDTO {
     private String nome;
     private String descricao;
     private Double preco;
-    private Long categoriasId;
+    private Long categoriaId;
 }
