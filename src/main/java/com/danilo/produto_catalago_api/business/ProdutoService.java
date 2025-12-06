@@ -4,6 +4,7 @@ import com.danilo.produto_catalago_api.business.dto.ProdutoDTO;
 import com.danilo.produto_catalago_api.business.mapper.ProdutoConverter;
 import com.danilo.produto_catalago_api.infrastructure.entity.Categoria;
 import com.danilo.produto_catalago_api.infrastructure.entity.Produto;
+import com.danilo.produto_catalago_api.infrastructure.exceptions.ResourceNotFoundException;
 import com.danilo.produto_catalago_api.infrastructure.repository.CategoriaRepository;
 import com.danilo.produto_catalago_api.infrastructure.repository.ProdutoRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class ProdutoService {
 
     public ProdutoDTO criar(ProdutoDTO dto){
         Categoria categoria = categoriaRepository.findById(dto.getCategoriasId()).orElseThrow(
-                () -> new RuntimeException("Categoria não encontrada"));
+                () -> new ResourceNotFoundException("Categoria não encontrada"));
         Produto entity = produtoConverter.paraEntity(dto);
         entity.setCategoria(categoria);
         produtoRepository.save(entity);
@@ -31,7 +32,7 @@ public class ProdutoService {
 
     public ProdutoDTO buscarPorId(Long id){
         Produto entity = produtoRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Produto não encontrado"));
+                () -> new ResourceNotFoundException("Produto não encontrado"));
         ProdutoDTO dto = produtoConverter.paraDTO(entity);
         dto.setCategoriasId(entity.getCategoria().getId());
         return dto;
@@ -39,10 +40,10 @@ public class ProdutoService {
 
     public ProdutoDTO atualizar(ProdutoDTO dto, Long id){
         Produto entity = produtoRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Produto não encontrado"));
+                () -> new ResourceNotFoundException("Produto não encontrado"));
 
         Categoria catEntity = categoriaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Categoria não encontrada"));
+                () -> new ResourceNotFoundException("Categoria não encontrada"));
 
         entity.setNome(dto.getNome());
         entity.setDescricao(dto.getDescricao());
@@ -58,7 +59,7 @@ public class ProdutoService {
 
     public void deletar(Long id){
         if (!produtoRepository.existsById(id)){
-            throw new RuntimeException("Produto não encontrado");
+            throw new ResourceNotFoundException("Produto não encontrado");
         }
         produtoRepository.deleteById(id);
     }

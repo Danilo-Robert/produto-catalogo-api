@@ -3,6 +3,7 @@ package com.danilo.produto_catalago_api.business;
 import com.danilo.produto_catalago_api.business.dto.CategoriaDTO;
 import com.danilo.produto_catalago_api.business.mapper.CategoriaConverter;
 import com.danilo.produto_catalago_api.infrastructure.entity.Categoria;
+import com.danilo.produto_catalago_api.infrastructure.exceptions.ResourceNotFoundException;
 import com.danilo.produto_catalago_api.infrastructure.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,20 @@ public class CategoriaService {
 
     public CategoriaDTO buscarPorId(Long id){
         Categoria entity = categoriaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Categoria não encontrada"));
+                () -> new ResourceNotFoundException("Categoria não encontrada"));
         return categoriaConverter.paraDTO(entity);
     }
 
     public CategoriaDTO atualizar(Long id, CategoriaDTO dto){
         Categoria entity = categoriaRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Categoria não encontrada"));
+                () -> new ResourceNotFoundException("Categoria não encontrada"));
         entity.setNome(dto.getNome());
         return categoriaConverter.paraDTO(categoriaRepository.save(entity));
     }
 
     public void deletar(Long id){
         if (!categoriaRepository.existsById(id)){
-            throw new RuntimeException("Categoria não encontrada");
+            throw new ResourceNotFoundException("Categoria não encontrada");
         }
         categoriaRepository.deleteById(id);
     }
