@@ -25,6 +25,4 @@ public class ProdutosEntity {
     @ManyToOne
     @JoinColumn(name = "categorias_id")
     private CategoriasEntity categoria;
-
-
 }
