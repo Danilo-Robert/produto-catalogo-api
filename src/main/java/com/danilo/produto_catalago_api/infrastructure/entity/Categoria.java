@@ -8,21 +8,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "produtos")
+@Table(name = "categoria")
 @Entity
-public class ProdutosEntity {
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String nome;
-    @Column
-    private String descricao;
-    @Column
-    private Double preco;
-
-    @ManyToOne
-    @JoinColumn(name = "categorias_id")
-    private CategoriasEntity categoria;
 }
